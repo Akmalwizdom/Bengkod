@@ -126,10 +126,21 @@
 
             <a href="{{ route('jadwal-periksa.index') }}"
                class="{{ $baseLink }} {{ request()->routeIs('jadwal-periksa.*') ? $active : $inactive }}">
-                <i class="fas fa-stethoscope w-4 text-center"></i>
+                <i class="fas fa-calendar-days w-4 text-center"></i>
                 Jadwal Periksa
             </a>
 
+            <a href="{{ route('periksa-pasien.index') }}"
+               class="{{ $baseLink }} {{ request()->routeIs('periksa-pasien.*') ? $active : $inactive }}">
+                <i class="fas fa-notes-medical w-4 text-center"></i>
+                Periksa Pasien
+            </a>
+
+            <a href="{{ route('riwayat-pasien.index') }}"
+               class="{{ $baseLink }} {{ request()->routeIs('riwayat-pasien.*') ? $active : $inactive }}">
+                <i class="fas fa-history w-4 text-center"></i>
+                Riwayat Pasien
+            </a>
         </div>
         @endif
 
