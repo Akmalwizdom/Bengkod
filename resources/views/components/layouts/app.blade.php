@@ -33,16 +33,23 @@
             <div class="main-scroll">
 
                 @if(session('success'))
-                <div class="alert alert-success mb-4 rounded-xl shadow-sm">
+                <div class="alert alert-success mb-4 rounded-xl shadow-sm alert-animated">
                     <i class="fas fa-check-circle"></i>
                     <span>{{ session('success') }}</span>
                 </div>
                 @endif
 
                 @if(session('error'))
-                <div class="alert alert-error mb-4 rounded-xl shadow-sm">
+                <div class="alert alert-error mb-4 rounded-xl shadow-sm alert-animated">
                     <i class="fas fa-circle-xmark"></i>
                     <span>{{ session('error') }}</span>
+                </div>
+                @endif
+
+                @if(session('message'))
+                <div class="alert alert-{{ session('type', 'info') }} mb-4 rounded-xl shadow-sm alert-animated">
+                    <i class="fas fa-{{ session('type') === 'error' ? 'circle-xmark' : 'circle-check' }}"></i>
+                    <span>{{ session('message') }}</span>
                 </div>
                 @endif
 

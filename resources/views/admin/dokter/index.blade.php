@@ -21,7 +21,7 @@
                 <table class="table w-full">
 
                     {{-- Table Head --}}
-                    <thead class="text-xs tracking-wider uppercase bg-slate-100 text-slate-600">
+                    <thead class="text-xs tracking-wider uppercase bg-slate-50 text-slate-500">
                         <tr>
                             <th class="px-6 py-4">Nama Dokter</th>
                             <th class="px-6 py-4">Email</th>

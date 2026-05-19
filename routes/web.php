@@ -29,6 +29,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('dokter', DokterController::class);
     Route::resource('pasien', PasienController::class);
     Route::resource('obat', ObatController::class);
+    Route::patch('obat/{obat}/stok', [ObatController::class, 'updateStok'])->name('obat.update-stok');
 });
 
 Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () {

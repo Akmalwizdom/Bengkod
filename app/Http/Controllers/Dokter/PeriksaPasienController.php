@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Dokter;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePeriksaRequest;
 use App\Models\DaftarPoli;
-use App\Models\DetailPeriksa;
 use App\Models\Obat;
-use App\Models\Periksa;
-use Illuminate\Http\Request;
+use App\Services\PeriksaService;
 use Illuminate\Support\Facades\Auth;
 
 class PeriksaPasienController extends Controller
 {
+    public function __construct(
+        private readonly PeriksaService $periksaService,
+    ) {}
+
     public function index()
     {
         $dokterId = Auth::id();
@@ -28,35 +31,28 @@ class PeriksaPasienController extends Controller
 
     public function create($id)
     {
-        $obats = Obat::all();
+        $obats = Obat::orderBy('nama_obat')->get();
         return view('dokter.periksa-pasien.create', compact('obats', 'id'));
     }
 
-    public function store(Request $request)
+    public function store(StorePeriksaRequest $request)
     {
-        $request->validate([
-            'obat_json' => 'required',
-            'catatan' => 'nullable|string',
-            'biaya_periksa' => 'required|integer',
-        ]);
-
         $obatIds = json_decode($request->obat_json, true);
 
-        $periksa = Periksa::create([
-            'id_daftar_poli' => $request->id_daftar_poli,
-            'tgl_periksa' => now(),
-            'catatan' => $request->catatan,
-            'biaya_periksa' => $request->biaya_periksa + 150000,
-        ]);
+        try {
+            $this->periksaService->simpanPeriksa([
+                'id_daftar_poli' => $request->id_daftar_poli,
+                'tgl_periksa'    => now(),
+                'catatan'        => $request->catatan,
+                'biaya_periksa'  => $request->biaya_periksa + 150000,
+            ], $obatIds);
 
-        foreach ($obatIds as $idObat) {
-            DetailPeriksa::create([
-                'id_periksa' => $periksa->id,
-                'id_obat' => $idObat,
-            ]);
+            return redirect()->route('periksa-pasien.index')
+                ->with('success', 'Data periksa berhasil disimpan.');
+        } catch (\RuntimeException $e) {
+            return redirect()->back()
+                ->with('error', $e->getMessage())
+                ->withInput();
         }
-
-        return redirect()->route('periksa-pasien.index')
-            ->with('success', 'Data periksa berhasil disimpan.');
     }
 }

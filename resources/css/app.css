@@ -70,4 +70,24 @@
     .btn-primary-gradient:hover {
         background: linear-gradient(135deg, #162156, #1e2d6b);
     }
+
+    /* Stok badge pulse for stok habis */
+    .stok-habis-pulse {
+        animation: pulse-red 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-red {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+    }
+
+    /* Alert slide-down animation */
+    .alert-animated {
+        animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 }
